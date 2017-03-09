@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="BlackjackApp">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Blackjack">
+    <meta name="author" content="Allyson Barros">
+
+    <title>Blackjack</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+    <script src="jogo.js"></script>
+  </head>
+
+  <body>
+    <div class="container-fluid" ng-controller="JogoController as jogo">
+        <div class="row" id="jogo-nao-iniciado" ng-show="!jogo.jogo_iniciado">
+            <div class="col">
+                <div class="row justify-content-center">
+                    <img src="http://rs698.pbsrc.com/albums/vv343/conhocway/a5gjuf.png~c200" alt="Blackjack" />
+                </div>
+                <h5 class="titulo-player text-center">
+                    <br/>
+                    MPES0021 - ESTRUTURA DE DADOS E ALGORITMOS
+                    <br/>
+                    <small>Aluno: Allyson Barros (20161023300)</small>
+                </h5>
+                <br/>
+                <br/>
+                <br/>
+                <div class="row justify-content-center">
+                    <a href="#" class="btn btn-lg btn-primary" ng-click="jogo.iniciar_jogo()">
+                        <i class="fa fa-gamepad"></i>
+                        Iniciar Jogo!
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="jogo-iniciado" ng-show="jogo.jogo_iniciado">
+            <div class="col col-12">
+                <h5 class="titulo-player">Jogador</h5>
+                <img ng-repeat="carta in jogo.cartas_jogador track by $index" class="carta" ng-src="{{ carta.img }}"/>
+                <img ng-repeat="carta in jogo.cartas_a_serem_viradas_jogador() track by $index" class="carta transparente" src="/assets/Red_Back.svg"/>
+            </div>
+            <div class="col col-12">
+                <h5 class="titulo-player">Banca</h5>
+                <img ng-repeat="carta in jogo.cartas_banca track by $index" class="carta" ng-src="{{ carta.img }}"/>
+                <img ng-repeat="carta in jogo.cartas_a_serem_viradas_banca() track by $index" class="carta transparente" src="/assets/Red_Back.svg"/>
+            </div>
+            <div class="col col-12" ng-if="!jogo.jogo_encerrado">
+                <h5 class="titulo-player">Cartas Restantes no Baralho</h5>
+                <div class="baralho">
+                    <span>{{ jogo.baralho.length }}</span>
+                    <img class="carta" src="/assets/Red_Back.svg"/>
+                </div>
+            </div>
+            <div class="col col-12" ng-if="jogo.jogo_encerrado">
+                <h5 class="titulo-player">Placar Final</h5>
+                
+                <div class="row">
+                    <div class="col">
+                        <h5 class="titulo-player">Jogador</h5>
+                        <span class="badge badge-danger">{{ jogo.valor_jogador }}</span>
+                        <br/>
+                        <br/>
+                        <img src="/assets/trofeu.svg" class="trofeu" ng-show="jogo.ganhador=='Jogador'" />
+                    </div>
+                    <div class="col">
+                        <h5 class="titulo-player">Banca</h5>
+                        <span class="badge badge-danger">{{ jogo.valor_banca }}</span>
+                        <br/>
+                        <br/>
+                        <img src="/assets/trofeu.svg" class="trofeu" ng-show="jogo.ganhador=='Banca'" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <a href="#" class="btn btn-lg btn-primary" ng-click="jogo.reiniciar_jogo()">
+                            <i class="fa fa-refresh"></i>
+                            Reiniciar Jogo!
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-12" ng-show="jogo.vez == 'Jogador' && !jogo.jogo_encerrado">
+                <h5 class="titulo-player">Ações Disponíveis</h5>
+                
+                <a class="btn btn-clear btn-carta" ion-button clear ng-click="jogo.puxar_carta('Jogador'); jogo.passar_vez_para('Banca');">
+                    <img class="carta" src="/assets/15538-illustration-of-a-card-deck-back-pv.png"/>
+                </a>
+                <a class="btn-carta" ion-button clear ng-click="jogo.encerrar_jogo()">
+                    <img class="carta" src="/assets/playingcards.png"/>
+                </a>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>

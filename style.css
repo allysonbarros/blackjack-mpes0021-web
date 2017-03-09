@@ -1,0 +1,76 @@
+body {
+    background: url('./assets/tableBackground.png') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.row#jogo-nao-iniciado {
+    padding-top: 160px;
+}
+
+.row#jogo-iniciado {
+    text-align: center;
+}
+
+.logo-menor {
+    width: 100px;
+    height: 100px;
+}
+
+.carta {
+    height: 90px;
+    margin-right: 5px;
+}
+
+.transparente {
+    opacity: 0.3;
+}
+
+.btn-carta .carta {
+    height: 80px;
+}
+
+.titulo-player {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.baralho {
+    width: 71px;
+    height: 100px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+}
+
+.baralho .carta {
+    height: 100px;
+}
+
+.baralho span {
+    position: absolute;
+    color: #fff;
+    font-size: 22px;
+    top: 23px;
+    left: 9px;
+    background: darkred;
+    border-radius: 100%;
+    padding: 7px;
+    width: 55px;
+    height: 55px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 40px;
+}
+
+.badge {
+    font-size: 36px !important;
+}
+
+.trofeu {
+    height: 48px;
+    margin-bottom: 40px;
+}
