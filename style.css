@@ -66,11 +66,20 @@ body {
     line-height: 40px;
 }
 
-.badge {
+#placar_final .badge {
     font-size: 36px !important;
 }
 
-.trofeu {
+.row#jogo-iniciado .badge {
+    font-size: 22px !important;
+} 
+
+#placar_final .trofeu {
     height: 48px;
     margin-bottom: 40px;
+}
+
+.form-group label {
+    color: #fff;
+    margin-right: 20px;
 }

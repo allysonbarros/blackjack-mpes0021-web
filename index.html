@@ -22,9 +22,9 @@
         <div class="row" id="jogo-nao-iniciado" ng-show="!jogo.jogo_iniciado">
             <div class="col">
                 <div class="row justify-content-center">
-                    <img src="http://rs698.pbsrc.com/albums/vv343/conhocway/a5gjuf.png~c200" alt="Blackjack" />
+                    <img src="assets/a5gjuf.png" alt="Blackjack" />
                 </div>
-                <h5 class="titulo-player text-center">
+                <h5 class="titulo-player text-center" style="line-height: 170%;">
                     <br/>
                     MPES0021 - ESTRUTURA DE DADOS E ALGORITMOS
                     <br/>
@@ -32,11 +32,23 @@
                 </h5>
                 <br/>
                 <br/>
-                <br/>
+                <div class="row justify-content-center">
+                    <div class="form-group">
+                        <label class="form-control-label">Quantidade de Baralhos:</label>
+                        <select class="custom-select" ng-model="jogo.qtd_baralhos">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="row justify-content-center">
                     <a href="#" class="btn btn-lg btn-primary" ng-click="jogo.iniciar_jogo()">
                         <i class="fa fa-gamepad"></i>
-                        Iniciar Jogo!
+                        Iniciar Jogo
                     </a>
                 </div>
             </div>
@@ -46,21 +58,23 @@
             <div class="col col-12">
                 <h5 class="titulo-player">Jogador</h5>
                 <img ng-repeat="carta in jogo.cartas_jogador track by $index" class="carta" ng-src="{{ carta.img }}"/>
-                <img ng-repeat="carta in jogo.cartas_a_serem_viradas_jogador() track by $index" class="carta transparente" src="/assets/Red_Back.svg"/>
+                <img ng-repeat="carta in jogo.cartas_a_serem_viradas_jogador() track by $index" class="carta transparente" src="assets/Red_Back.svg"/>
+                <span class="badge badge-danger" ng-hide="jogo.jogo_encerrado">{{ jogo.valor_jogador }}</span>
             </div>
             <div class="col col-12">
                 <h5 class="titulo-player">Banca</h5>
-                <img ng-repeat="carta in jogo.cartas_banca track by $index" class="carta" ng-src="{{ carta.img }}"/>
-                <img ng-repeat="carta in jogo.cartas_a_serem_viradas_banca() track by $index" class="carta transparente" src="/assets/Red_Back.svg"/>
+                <img ng-repeat="carta in jogo.cartas_banca track by $index" class="carta" ng-src="{{ carta.visivel == true ? carta.img : 'assets/Red_Back.svg' }}"/>
+                <img ng-repeat="carta in jogo.cartas_a_serem_viradas_banca() track by $index" class="carta transparente" src="assets/Red_Back.svg"/>
+                <span class="badge badge-danger" ng-hide="jogo.jogo_encerrado">{{ jogo.valor_banca_visivel }}</span>
             </div>
             <div class="col col-12" ng-if="!jogo.jogo_encerrado">
                 <h5 class="titulo-player">Cartas Restantes no Baralho</h5>
                 <div class="baralho">
                     <span>{{ jogo.baralho.length }}</span>
-                    <img class="carta" src="/assets/Red_Back.svg"/>
+                    <img class="carta" src="assets/Red_Back.svg"/>
                 </div>
             </div>
-            <div class="col col-12" ng-if="jogo.jogo_encerrado">
+            <div id="placar_final" class="col col-12" ng-if="jogo.jogo_encerrado">
                 <h5 class="titulo-player">Placar Final</h5>
                 
                 <div class="row">
@@ -69,14 +83,14 @@
                         <span class="badge badge-danger">{{ jogo.valor_jogador }}</span>
                         <br/>
                         <br/>
-                        <img src="/assets/trofeu.svg" class="trofeu" ng-show="jogo.ganhador=='Jogador'" />
+                        <img src="assets/trofeu.svg" class="trofeu" ng-show="jogo.ganhador=='Jogador'" />
                     </div>
                     <div class="col">
                         <h5 class="titulo-player">Banca</h5>
                         <span class="badge badge-danger">{{ jogo.valor_banca }}</span>
                         <br/>
                         <br/>
-                        <img src="/assets/trofeu.svg" class="trofeu" ng-show="jogo.ganhador=='Banca'" />
+                        <img src="assets/trofeu.svg" class="trofeu" ng-show="jogo.ganhador=='Banca'" />
                     </div>
                 </div>
 
@@ -84,7 +98,13 @@
                     <div class="col">
                         <a href="#" class="btn btn-lg btn-primary" ng-click="jogo.reiniciar_jogo()">
                             <i class="fa fa-refresh"></i>
-                            Reiniciar Jogo!
+                            Reiniciar Jogo
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="#" class="btn btn-lg btn-danger" ng-click="jogo.finalizar_jogo()">
+                            <i class="fa fa-sign-out"></i>
+                            Finalizar Jogo
                         </a>
                     </div>
                 </div>
@@ -92,11 +112,11 @@
             <div class="col col-12" ng-show="jogo.vez == 'Jogador' && !jogo.jogo_encerrado">
                 <h5 class="titulo-player">Ações Disponíveis</h5>
                 
-                <a class="btn btn-clear btn-carta" ion-button clear ng-click="jogo.puxar_carta('Jogador'); jogo.passar_vez_para('Banca');">
-                    <img class="carta" src="/assets/15538-illustration-of-a-card-deck-back-pv.png"/>
+                <a class="btn btn-clear btn-carta" ion-button clear ng-click="jogo.puxar_carta('Jogador');" title="Puxar uma Carta">
+                    <img class="carta" src="assets/15538-illustration-of-a-card-deck-back-pv.png"/>
                 </a>
-                <a class="btn-carta" ion-button clear ng-click="jogo.encerrar_jogo()">
-                    <img class="carta" src="/assets/playingcards.png"/>
+                <a class="btn-carta" ion-button clear ng-click="jogo.passar_vez_para_banca();" title="Parar">
+                    <img class="carta" src="assets/2000px-Process-stop.svg.png"/>
                 </a>
             </div>
         </div>
